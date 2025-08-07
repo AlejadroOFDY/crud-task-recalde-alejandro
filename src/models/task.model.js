@@ -1,7 +1,7 @@
-import { BOOLEAN, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import { sequelize } from "../config/database.js";
 
-const task = sequelize.define("Task", {
+const TaskModel = sequelize.define("Task", {
     tittle: {
         type: DataTypes.STRING(100),
         allowNull: false,
@@ -10,7 +10,6 @@ const task = sequelize.define("Task", {
     description: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: false,
     },
     isComplete: {
         type: DataTypes.BOOLEAN,
