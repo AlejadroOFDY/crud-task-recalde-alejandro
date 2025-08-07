@@ -1,8 +1,13 @@
 {
-  "dependencies": {
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "mysql2": "^3.14.3",
-    "sequelize": "^6.37.7"
-  }
+"scripts":{
+    "start":"nodemon app.js",
+    "dev":"nodemon --watch app.js",
+    },
+"dependencies":{
+    "dotenv":"^17.2.1",
+    "express":"^5.1.0",
+    "mysql2":"^3.14.3",
+    "nodemon":"^3.1.10",
+    "sequelize":"^6.37.7"
+    }
 }
