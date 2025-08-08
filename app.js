@@ -1,6 +1,6 @@
 import express from "express";
-import task_route from "./src/routes/task.routes";
-import user_route from "./src/routes/user.routes";
+import task_route from "./src/routes/task.routes.js";
+import user_route from "./src/routes/user.routes.js";
 import { start_DB } from "./src/config/database.js";
 import dotenv from "dotenv";
 
@@ -13,7 +13,6 @@ app.use(express.json());
 app.use("/api/tasks", task_route);
 app.use("/api/users", user_route);
 
-app.listen(PORT, async() => {
-    await start_DB(),
-    console.log(`Servidor corriendo en: localhost:${PORT}`);
+app.listen(PORT, async () => {
+  await start_DB(), console.log(`Servidor corriendo en: localhost:${PORT}`);
 });
