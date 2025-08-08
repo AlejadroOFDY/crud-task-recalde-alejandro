@@ -18,7 +18,7 @@ export const start_DB= async() => {
   await sequelize.authenticate();
   console.log('Connection has been established successfully.');
   await sequelize.sync({
-     force: true
+     /* force: true */
   }); // para que cree las tablas automat
 } catch (error) {
   console.error('Unable to connect to the database:', error);

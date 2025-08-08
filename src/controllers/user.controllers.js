@@ -48,7 +48,7 @@ export const createUser = async (req, res) => {
 // modificar usuario
 export const updateUser = async (req, res) => {
   try {
-    const users = UserModel.findByPk(req.params.id);
+    const users = await UserModel.findByPk(req.params.id);
     if (!users) {
       return res.status(404).json("No se encontró el usuario");
     }
@@ -66,7 +66,7 @@ export const updateUser = async (req, res) => {
     return res.status(200).json(users)
 
   } catch (error) {
-    return res.status(500).json({error: "No se pudo crear el usuario"})
+    return res.status(500).json({error: "No se pudo actualizar el usuario"})
   }
 }
 
