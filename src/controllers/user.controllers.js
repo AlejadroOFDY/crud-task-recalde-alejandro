@@ -58,7 +58,7 @@ export const updateUser = async (req, res) => {
       return res.status(400).json("El email ya está en uso")
     }
 
-    await UserModel.update({
+    await users.update({
       name : name || users.name,
       email: email || users.email,
       password: password || users.password

@@ -46,17 +46,17 @@ export const createTask = async (req, res) => {
 // modificar tarea
 export const updateTask = async (req, res) => {
   try {
-    const tasks = TaskModel.findByPk(req.params.id);
+    const tasks = await TaskModel.findByPk(req.params.id);
     if (!tasks) {
       return res.status(404).json("No se encontró la tarea");
     }
     const { tittle, description, isComplete } = req.body;
 
-    if (tittle && (await TaskModel.findOne({where: {tittle}}))) {
+      if (tittle && (await TaskModel.findOne({where: {tittle}}))) {
       return res.status(400).json("El título ya está en uso")
     }
 
-    await TaskModel.update({
+    await tasks.update({
       tittle: tittle || tasks.tittle,
       description: description || tasks.description,
       isComplete: isComplete || tasks.isComplete
@@ -64,6 +64,7 @@ export const updateTask = async (req, res) => {
     return res.status(200).json(tasks)
 
   } catch (error) {
+    console.log(error)
     return res.status(500).json({error: "Error al actualizar la tarea"})
   }
 }

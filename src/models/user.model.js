@@ -3,7 +3,7 @@ import { sequelize } from "../config/database.js";
 
 // el nombre de los modelos con la inicial en mayuscula
 export const UserModel = sequelize.define("User", {
-  tittle: {
+  name: {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
