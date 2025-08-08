@@ -24,8 +24,49 @@ export const getTaskById = async (req, res) => {
 };
 
 // crear tarea
+export const createTask = async (req, res) => {
+  try {
+        const {tittle, description, isComplete} = req.body;
+        console.log(req.body);
+      if (!tittle || !description || !isComplete) {
+        return res.status(400).json("Faltan campos obligatorios");
+      }
+      const newTask = await TaskModel.create({
+        tittle,
+        description,
+        isComplete
+      });
+      return res.status(200).json(newTask)
+
+  } catch (error){
+    return res.status(500).json({error: "No se pudo crear la tarea"});
+  }
+}
 
 // modificar tarea
+export const updateTask = async (req, res) => {
+  try {
+    const tasks = TaskModel.findByPk(req.params.id);
+    if (!tasks) {
+      return res.status(404).json("No se encontró la tarea");
+    }
+    const { tittle, description, isComplete } = req.body;
+
+    if (tittle && (await TaskModel.findOne({where: {tittle}}))) {
+      return res.status(400).json("El título ya está en uso")
+    }
+
+    await TaskModel.update({
+      tittle: tittle || tasks.tittle,
+      description: description || tasks.description,
+      isComplete: isComplete || tasks.isComplete
+    })
+    return res.status(200).json(tasks)
+
+  } catch (error) {
+    return res.status(500).json({error: "Error al actualizar la tarea"})
+  }
+}
 
 // eliminar tarea
 export const deleteTask = async (req, res) => {
