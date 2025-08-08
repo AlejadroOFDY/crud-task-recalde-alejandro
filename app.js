@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
-app.use("/api/task", task_route);
-app.use("/api/user", user_route);
+app.use("/api/tasks", task_route);
+app.use("/api/users", user_route);
 
 app.listen(PORT, async() => {
     await start_DB(),
