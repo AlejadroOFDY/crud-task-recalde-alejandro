@@ -1,6 +1,9 @@
 import express from "express";
 import task_route from "./src/routes/task.routes.js";
 import user_route from "./src/routes/user.routes.js";
+import { ProjectModel } from "./src/models/project.model.js";
+import { ProfileModel } from "./src/models/profile.model.js";
+import { UserProjectModel } from "./src/models/user_project.model.js";
 import { start_DB } from "./src/config/database.js";
 import dotenv from "dotenv";
 

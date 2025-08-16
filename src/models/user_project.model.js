@@ -3,11 +3,11 @@ import { sequelize } from "../config/database.js";
 import { UserModel } from "./user.model.js";
 import { ProjectModel } from "./project.model.js";
 
-export const UserProyectModel = sequelize.define(
-  "User_Proyect",
+export const UserProjectModel = sequelize.define(
+  "User_Project",
   {
     id: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
@@ -17,13 +17,13 @@ export const UserProyectModel = sequelize.define(
 );
 
 UserModel.belongsToMany(ProjectModel, {
-  through: UserProyectModel,
+  through: UserProjectModel,
   foreignKey: "user_id",
   as: "projects",
 });
 
 ProjectModel.belongsToMany(UserModel, {
-  through: UserProyectModel,
+  through: UserProjectModel,
   foreignKey: "project_id",
   as: "users",
 });

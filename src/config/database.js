@@ -3,25 +3,26 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const sequelize = new Sequelize (
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        dialect: process.env.DB_DIALECT,
-    }
-)
+export const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+  }
+);
 
-export const start_DB= async() => {
+export const start_DB = async () => {
   try {
-  await sequelize.authenticate();
-  console.log('Connection has been established successfully.');
-  await sequelize.sync({
-     /* force: true */
-     /* también existe alter:true que mantiene la info pero cambia las tablas y sus relaciones*/
-  }); // para que cree las tablas automat
-} catch (error) {
-  console.error('Unable to connect to the database:', error);
-}
-}
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+    await sequelize.sync({
+      alter: true,
+      /* force: true */
+      /* también existe alter:true que mantiene la info pero cambia las tablas y sus relaciones*/
+    }); // para que cree las tablas automat
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+};
