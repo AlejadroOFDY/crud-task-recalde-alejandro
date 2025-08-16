@@ -4,7 +4,7 @@ import { UserModel } from "../models/user.model.js";
 export const getAllUsers = async (req, res) => {
   try {
     const users = await UserModel.findAll();
-    res.status(200).json(users);
+    return res.status(200).json(users);
   } catch (error) {
     return res
       .status(500)
@@ -28,22 +28,21 @@ export const getUserById = async (req, res) => {
 // crear usuario
 export const createUser = async (req, res) => {
   try {
-        const {name, email, password} = req.body;
-        console.log(req.body);
-      if (!name || !email || !password) {
-        return res.status(400).json("Faltan campos obligatorios");
-      }
-      const newUser = await UserModel.create({
-        name,
-        email,
-        password
-      });
-      return res.status(200).json(newUser)
-
-  } catch (error){
-    return res.status(500).json({error: "No se pudo crear el usuario"});
+    const { name, email, password } = req.body;
+    console.log(req.body);
+    if (!name || !email || !password) {
+      return res.status(400).json("Faltan campos obligatorios");
+    }
+    const newUser = await UserModel.create({
+      name,
+      email,
+      password,
+    });
+    return res.status(200).json(newUser);
+  } catch (error) {
+    return res.status(500).json({ error: "No se pudo crear el usuario" });
   }
-}
+};
 
 // modificar usuario
 export const updateUser = async (req, res) => {
@@ -54,21 +53,20 @@ export const updateUser = async (req, res) => {
     }
     const { name, email, password } = req.body;
 
-    if (email && (await UserModel.findOne({where: {email}}))) {
-      return res.status(400).json("El email ya está en uso")
+    if (email && (await UserModel.findOne({ where: { email } }))) {
+      return res.status(400).json("El email ya está en uso");
     }
 
     await users.update({
-      name : name || users.name,
+      name: name || users.name,
       email: email || users.email,
-      password: password || users.password
-    })
-    return res.status(200).json(users)
-
+      password: password || users.password,
+    });
+    return res.status(200).json(users);
   } catch (error) {
-    return res.status(500).json({error: "No se pudo actualizar el usuario"})
+    return res.status(500).json({ error: "No se pudo actualizar el usuario" });
   }
-}
+};
 
 // eliminar usuario
 export const deleteUser = async (req, res) => {
