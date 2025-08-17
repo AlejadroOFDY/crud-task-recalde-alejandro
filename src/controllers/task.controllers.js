@@ -53,7 +53,7 @@ export const createTask = async (req, res) => {
     if (!tittle || !description || !user_id) {
       return res.status(400).json("Faltan campos obligatorios");
     }
-    const existingTittle = await findOne({ where: tittle });
+    const existingTittle = await TaskModel.findOne({ where: { tittle } });
     if (existingTittle) {
       return res.status(400).json("El título ya está en uso");
     }
