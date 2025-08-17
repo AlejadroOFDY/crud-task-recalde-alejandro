@@ -1,21 +1,39 @@
 import { UserModel } from "../models/user.model.js";
+import { TaskModel } from "../models/task.model.js";
 
 // Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await UserModel.findAll();
+    const users = await UserModel.findAll({
+      include: [
+        {
+          model: TaskModel,
+          as: "tareas",
+          attributes: ["id", "tittle", "description", "isComplete"],
+        },
+      ],
+    });
     return res.status(200).json(users);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ error: "No se pudieron obtener los usuarios" });
+    return res.status(500).json({
+      error: error.message,
+      message: "No se pudieron obtener los usuarios",
+    });
   }
 };
 
 // Buscar un usuario por id
 export const getUserById = async (req, res) => {
   try {
-    const users = await UserModel.findByPk(req.params.id);
+    const users = await UserModel.findByPk(req.params.id, {
+      include: [
+        {
+          model: TaskModel,
+          as: "tareas",
+          attributes: ["id", "tittle", "description", "isComplete"],
+        },
+      ],
+    });
     if (!users) {
       return res.status(404).json({ error: "No se encontró el usuario" });
     }

@@ -5,7 +5,19 @@ import { UserModel } from "../models/user.model.js";
 
 export const getAllProjects = async (req, res) => {
   try {
-    project = await ProjectModel.findAll();
+    const project = await ProjectModel.findAll({
+      include: [
+        {
+          model: UserModel,
+          as: "users",
+          attributes: ["id", "name", "email"],
+          through: {
+            attributes: [], //trae un array vacío no entiendo por qué
+          },
+        },
+      ],
+      logging: console.log,
+    });
     return res.status(200).json(project);
   } catch (error) {
     return res.status(500).json({
