@@ -9,7 +9,7 @@ export const getAllProfiles = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       error: error.message,
-      message: "no se pudieron obtener los perfiles",
+      message: "No se pudieron obtener los perfiles",
     });
   }
 };
@@ -22,7 +22,7 @@ export const createProfile = async (req, res) => {
     if (!nickname || !user_id) {
       return res
         .status(400)
-        .json("El nickname y el id de usuario son obligatorios");
+        .json("El nickname y el id de usuario son  campos obligatorios");
     }
     if (nickname.length > 20) {
       return res.status(400).json("El límite de caracteres es 20");
@@ -39,7 +39,7 @@ export const createProfile = async (req, res) => {
       nickname,
       user_id,
     });
-    return res.status(200).json(newProfile);
+    return res.status(201).json(newProfile);
   } catch (error) {
     return res
       .status(500)
