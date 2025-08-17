@@ -67,7 +67,7 @@ export const createTask = async (req, res) => {
       isComplete,
       user_id,
     });
-    return res.status(200).json(newTask);
+    return res.status(201).json(newTask);
   } catch (error) {
     return res
       .status(500)
