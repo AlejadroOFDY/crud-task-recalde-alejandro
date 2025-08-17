@@ -7,7 +7,6 @@ export const ProjectModel = sequelize.define(
     name: {
       type: DataTypes.STRING(30),
       allowNull: false,
-      unique: true,
     },
   },
   { timestamps: false }

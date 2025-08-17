@@ -43,12 +43,6 @@ export const createProject = async (req, res) => {
     if (name.length > 30) {
       return res.status(400).json("El límite de caracteres es 30");
     }
-    const existingProject = await ProjectModel.findOne({
-      where: { name: name },
-    });
-    if (existingProject) {
-      return res.status(400).json("Ya existe un proyecto con este nombre");
-    }
     const user = await UserModel.findByPk(user_id);
     if (!user) {
       return res.status(404).json("Usuario no encontrado");
