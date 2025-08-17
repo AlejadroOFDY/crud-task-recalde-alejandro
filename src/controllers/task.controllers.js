@@ -15,7 +15,10 @@ export const getAllTasks = async (req, res) => {
     });
     res.status(200).json(tasks);
   } catch (error) {
-    return res.status(500).json({ error: "No se pudieron obtener las tareas" });
+    return res.status(500).json({
+      error: error.message,
+      message: "No se pudieron obtener las tareas",
+    });
   }
 };
 
@@ -32,11 +35,13 @@ export const getTaskById = async (req, res) => {
       ],
     });
     if (!tasks) {
-      return res.status(404).json({ error: "No se encontró la tarea" });
+      return res.status(404).json("No se encontró la tarea");
     }
     return res.status(200).json(tasks);
   } catch (error) {
-    return res.status(500).json({ error: "Error al obtener la tarea" });
+    return res
+      .status(500)
+      .json({ error: error.message, message: "Error al obtener la tarea" });
   }
 };
 
@@ -64,7 +69,9 @@ export const createTask = async (req, res) => {
     });
     return res.status(200).json(newTask);
   } catch (error) {
-    return res.status(500).json({ error: "No se pudo crear la tarea" });
+    return res
+      .status(500)
+      .json({ error: error.message, message: "No se pudo crear la tarea" });
   }
 };
 
@@ -89,7 +96,9 @@ export const updateTask = async (req, res) => {
     return res.status(200).json(tasks);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ error: "Error al actualizar la tarea" });
+    return res
+      .status(500)
+      .json({ error: error.message, message: "Error al actualizar la tarea" });
   }
 };
 
@@ -105,6 +114,8 @@ export const deleteTask = async (req, res) => {
       .status(200)
       .json({ message: "Se eliminó la tarea correctamente" });
   } catch (error) {
-    res.status(500).json({ error: "No se pudo eliminar la tarea" });
+    res
+      .status(500)
+      .json({ error: error.message, message: "No se pudo eliminar la tarea" });
   }
 };

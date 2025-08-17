@@ -16,7 +16,7 @@ export const getAllProjects = async (req, res) => {
           },
         },
       ],
-      logging: console.log,
+      logging: console.log, // esto está para ver la consola sql para tratar de solucionar el problema de arriba
     });
     return res.status(200).json(project);
   } catch (error) {

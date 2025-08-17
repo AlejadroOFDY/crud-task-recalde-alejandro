@@ -35,11 +35,15 @@ export const getUserById = async (req, res) => {
       ],
     });
     if (!users) {
-      return res.status(404).json({ error: "No se encontró el usuario" });
+      return res
+        .status(404)
+        .json({ error: error.message, message: "No se encontró el usuario" });
     }
     return res.status(200).json(users);
   } catch (error) {
-    return res.status(500).json({ error: "Error al obtener el usuario" });
+    return res
+      .status(500)
+      .json({ error: error.message, message: "Error al obtener el usuario" });
   }
 };
 
@@ -56,9 +60,11 @@ export const createUser = async (req, res) => {
       email,
       password,
     });
-    return res.status(200).json(newUser);
+    return res.status(201).json(newUser);
   } catch (error) {
-    return res.status(500).json({ error: "No se pudo crear el usuario" });
+    return res
+      .status(500)
+      .json({ error: error.message, message: "No se pudo crear el usuario" });
   }
 };
 
@@ -82,7 +88,10 @@ export const updateUser = async (req, res) => {
     });
     return res.status(200).json(users);
   } catch (error) {
-    return res.status(500).json({ error: "No se pudo actualizar el usuario" });
+    return res.status(500).json({
+      error: error.message,
+      message: "No se pudo actualizar el usuario",
+    });
   }
 };
 
@@ -94,10 +103,11 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json("No se encontró el usuario");
     }
     await users.destroy();
-    return res
-      .status(200)
-      .json({ message: "Se eliminó el usuario correctamente" });
+    return res.status(200).json("Se eliminó el usuario correctamente");
   } catch (error) {
-    res.status(500).json({ error: "No se pudo eliminar el usuario" });
+    res.status(500).json({
+      error: error.message,
+      message: "No se pudo eliminar el usuario",
+    });
   }
 };
