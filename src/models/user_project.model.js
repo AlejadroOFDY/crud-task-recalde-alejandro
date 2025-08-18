@@ -16,6 +16,7 @@ export const UserProjectModel = sequelize.define(
   { timestamps: false }
 );
 
+
 UserModel.belongsToMany(ProjectModel, {
   through: UserProjectModel,
   foreignKey: "user_id",
@@ -26,4 +27,14 @@ ProjectModel.belongsToMany(UserModel, {
   through: UserProjectModel,
   foreignKey: "project_id",
   as: "users",
+});
+
+UserProjectModel.belongsTo(UserModel, {
+  foreignKey: "user_id",
+  as: "users"
+});
+
+UserProjectModel.belongsTo(ProjectModel, {
+  foreignKey: "project_id",
+  as: "projects"
 });
