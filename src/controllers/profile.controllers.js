@@ -14,6 +14,29 @@ export const getAllProfiles = async (req, res) => {
   }
 };
 
+// obtener por id
+export const getProfileById = async (req, res) => {
+  try {
+    const profile = await ProfileModel.findByPk(req.params.id, {
+      include: [
+        {
+          model: UserModel,
+          as: "creado por",
+          attributes: ["id", "name", "email"],
+        },
+      ],
+    });
+    if (!profile) {
+      return res.status(404).json({ message: "No se encontró el perfil" });
+    }
+    return res.status(200).json(profile);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: error.message, message: "No se pudo buscar el perfil" });
+  }
+};
+
 // crear
 export const createProfile = async (req, res) => {
   try {
@@ -44,5 +67,49 @@ export const createProfile = async (req, res) => {
     return res
       .status(500)
       .json({ error: error.message, message: "No se pudo crear el perfil" });
+  }
+};
+
+// actualizar
+export const updateProfile = async (req, res) => {
+  try {
+    const profile = await ProfileModel.findByPk(req.params.id);
+    if (!profile) {
+      return res.status(404).json({ message: "No se encontró el perfil" });
+    }
+    const { nickname } = req.body;
+    if (nickname && (await ProfileModel.findOne({ where: { nickname } }))) {
+      return res
+        .status(500)
+        .json({ message: "El nombre del perfil ya se encuentra en uso" });
+    }
+    await profile.update({
+      nickname: nickname || profile.nickname,
+    });
+    return res.status(200).json(profile);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "No se pudo actualizar el perfil",
+    });
+  }
+};
+
+// borrar
+export const deleteProfile = async (req, res) => {
+  try {
+    const profile = await ProfileModel.findByPk(req.params.id);
+    if (!profile) {
+      return res.status(404).json({ message: "No se encontró el perfil" });
+    }
+    await profile.destroy();
+    return res
+      .status(200)
+      .json({ message: "Se eliminó el perfil correctamente" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "No se pudo eliminar el perfil",
+    });
   }
 };
