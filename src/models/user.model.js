@@ -16,5 +16,9 @@ export const UserModel = sequelize.define("User", {
     type: DataTypes.STRING(100),
     allowNull: false,
   },
+  deleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  }
 },
   {timestamps: false});

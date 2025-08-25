@@ -5,7 +5,7 @@ import { UserModel } from "../models/user.model.js";
 
 export const getAllProjects = async (req, res) => {
   try {
-    const project = await ProjectModel.findAll({
+    const project = await ProjectModel.findAll({where: {deleted: false},
       include: [
         {
           model: UserModel,
@@ -30,7 +30,7 @@ export const getAllProjects = async (req, res) => {
 
 export const getProjectById = async (req, res) => {
   try {
-    const project = await ProjectModel.findByPk(req.params.id, {
+    const project = await ProjectModel.findOne({ where: {id: req.params.id, deleted: false},
       include: [
         {
           model: UserModel,
@@ -87,7 +87,7 @@ export const createProject = async (req, res) => {
 
 export const updateProject = async (req, res) => {
   try {
-    const project = await ProjectModel.findByPk(req.params.id);
+    const project = await ProjectModel.findOne({ where: {id: req.params.id, deleted: false}});
     if (!project) {
       return res.status(404).json({ message: "No se encontró el proyecto" });
     }
@@ -113,11 +113,11 @@ export const updateProject = async (req, res) => {
 
 export const deleteProject = async (req, res) => {
   try {
-    const project = await ProjectModel.findByPk(req.params.id);
+    const project = await ProjectModel.findOne({ where: {id: req.params.id, deleted: false}});
     if (!project) {
       return res.status(404).json({ message: "No se encontró el proyecto" });
     }
-    await project.destroy();
+    await project.update({deleted: true});
     return res
       .status(200)
       .json({ message: "Se eliminó el proyecto correctamente" });

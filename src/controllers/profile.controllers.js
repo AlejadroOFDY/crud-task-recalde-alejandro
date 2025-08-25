@@ -4,7 +4,16 @@ import { UserModel } from "../models/user.model.js";
 // obtener todo
 export const getAllProfiles = async (req, res) => {
   try {
-    const profiles = await ProfileModel.findAll();
+    const profiles = await ProfileModel.findAll({
+      include: [
+        {
+          model: UserModel,
+          as: "creado por",
+          attributes: ["id", "name", "email"],
+          where: { deleted: false },
+        },
+      ],
+    });
     return res.status(200).json(profiles);
   } catch (error) {
     return res.status(500).json({
@@ -23,6 +32,7 @@ export const getProfileById = async (req, res) => {
           model: UserModel,
           as: "creado por",
           attributes: ["id", "name", "email"],
+          where: { deleted: false },
         },
       ],
     });

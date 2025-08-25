@@ -10,6 +10,7 @@ export const getAllTasks = async (req, res) => {
           model: UserModel,
           as: "creado por",
           attributes: ["id", "name", "email"],
+          where: { deleted: false },
         },
       ],
     });
@@ -31,6 +32,7 @@ export const getTaskById = async (req, res) => {
           model: UserModel,
           as: "creado por",
           attributes: ["id", "name", "email"],
+          where: { deleted: false },
         },
       ],
     });

@@ -11,11 +11,13 @@ export const getAllUserProject = async (req, res) => {
           model: UserModel,
           as: "users",
           attributes: ["name", "email"],
+          where: { deleted: false },
         },
         {
           model: ProjectModel,
           as: "projects",
           attributes: ["name"],
+          where: { deleted: false }
         },
       ],
     });
@@ -37,11 +39,13 @@ export const getUserProjectById = async (req, res) => {
           model: UserModel,
           as: "users",
           attributes: ["id", "name", "email"],
+          where: { deleted: false },
         },
         {
           model: ProjectModel,
           as: "projects",
           attributes: ["name"],
+          where: { deleted: false },
         },
       ],
     });

@@ -8,6 +8,10 @@ export const ProjectModel = sequelize.define(
       type: DataTypes.STRING(30),
       allowNull: false,
     },
+    deleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   },
   { timestamps: false }
 );

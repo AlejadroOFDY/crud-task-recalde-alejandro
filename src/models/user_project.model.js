@@ -21,12 +21,14 @@ UserModel.belongsToMany(ProjectModel, {
   through: UserProjectModel,
   foreignKey: "user_id",
   as: "projects",
+  onDelete: "CASCADE"
 });
 
 ProjectModel.belongsToMany(UserModel, {
   through: UserProjectModel,
   foreignKey: "project_id",
   as: "users",
+  onDelete: "CASCADE"
 });
 
 UserProjectModel.belongsTo(UserModel, {
