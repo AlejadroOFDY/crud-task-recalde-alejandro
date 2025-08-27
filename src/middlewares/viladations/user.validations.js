@@ -4,7 +4,7 @@ import { UserModel } from "../../models/user.model.js";
 export const getUserByIdValidation = [
   param("id")
     .isInt()
-    .withMessage("El número ingresado deber ser un número entero")
+    .withMessage("El número ingresado debe ser un número entero")
     .custom(async (value) => {
       const users = await UserModel.findByPk(value);
       if (!users) {
@@ -21,8 +21,8 @@ export const createUserValidation = [
     .withMessage("El email es un campo obligatorio"),
   body("password")
     .notEmpty()
-    .withMessage("La contraseña es un campo obligatorio"),
-  custom(async (email) => {
+    .withMessage("La contraseña es un campo obligatorio")
+    .custom(async (email) => {
     const users = await UserModel.findOne({ where: { email } });
     if (users) {
       throw new Error("El email ya se encuentra registrado");

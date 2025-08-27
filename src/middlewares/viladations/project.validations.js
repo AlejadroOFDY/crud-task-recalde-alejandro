@@ -4,8 +4,8 @@ import { ProjectModel } from "../../models/project.model.js";
 export const getProjectByIdValidation = [
       param("id")
         .isInt()
-        .withMessage("El número ingresado deber ser un número entero"),
-        custom(async (value) => {
+        .withMessage("El número ingresado deber ser un número entero")
+        .custom(async (value) => {
           const users = await ProjectModel.findByPk(value);
           if (!project) {
             throw new Error("Proyecto no encontrado");
@@ -23,8 +23,8 @@ export const createProjectValidation = [
 export const updateProjectValidation = [
       param("id")
         .isInt()
-        .withMessage("El número ingresado deber ser un número entero"),
-        custom(async (value) => {
+        .withMessage("El número ingresado deber ser un número entero")
+        .custom(async (value) => {
           const project = await ProjectModel.findByPk(value);
           if (!project) {
             throw new Error("Proyecto no encontrado");
@@ -39,8 +39,8 @@ export const updateProjectValidation = [
 export const deleteProjectValidation = [
   param("id")
     .isInt()
-    .withMessage("El número ingresado deber ser un número entero"),
-    custom(async (value) => {
+    .withMessage("El número ingresado deber ser un número entero")
+    .custom(async (value) => {
       const project = await ProjectModel.findByPk(value);
       if (!project) {
         throw new Error("Proyecto no encontrado");
