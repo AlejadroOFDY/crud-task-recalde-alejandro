@@ -16,27 +16,26 @@ export const UserProjectModel = sequelize.define(
   { timestamps: false }
 );
 
-
 UserModel.belongsToMany(ProjectModel, {
   through: UserProjectModel,
   foreignKey: "user_id",
   as: "projects",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 ProjectModel.belongsToMany(UserModel, {
   through: UserProjectModel,
   foreignKey: "project_id",
   as: "users",
-  onDelete: "CASCADE"
+  onDelete: "CASCADE",
 });
 
 UserProjectModel.belongsTo(UserModel, {
   foreignKey: "user_id",
-  as: "users"
+  as: "users",
 });
 
 UserProjectModel.belongsTo(ProjectModel, {
   foreignKey: "project_id",
-  as: "projects"
+  as: "projects",
 });

@@ -15,14 +15,14 @@ export const getProfileByIdValidation = [
 
 export const createProfileValidation = [
   body("nickname")
-  .notEmpty()
-  .withMessage("El nombre es un campo obligatorio")
-  .custom(async (nickname) => {
-    const profile = await ProfileModel.findOne({ where: { nickname } });
-    if (profile) {
-      throw new Error("El nickname ya está en uso");
-    }
-  }),
+    .notEmpty()
+    .withMessage("El nombre es un campo obligatorio")
+    .custom(async (nickname) => {
+      const profile = await ProfileModel.findOne({ where: { nickname } });
+      if (profile) {
+        throw new Error("El nickname ya está en uso");
+      }
+    }),
 ];
 
 export const updateProfileValidation = [
@@ -30,11 +30,11 @@ export const updateProfileValidation = [
     .isInt()
     .withMessage("El número ingresado debe ser un número entero")
     .custom(async (nickname) => {
-    const profile = await ProfileModel.findOne({ where: { nickname } });
-    if (profile) {
-      throw new Error("El nickname ya está en uso");
-    }
-  }),
+      const profile = await ProfileModel.findOne({ where: { nickname } });
+      if (profile) {
+        throw new Error("El nickname ya está en uso");
+      }
+    }),
   body("nickname")
     .optional()
     .isEmpty()
@@ -47,10 +47,10 @@ export const deleteProfileValidation = [
   param("id")
     .isInt()
     .withMessage("El número ingresado debe ser un número entero")
-    .custom(async(id) => {
-        const profile = await ProfileModel.findOne({where: {profile}});
-        if(!profile) {
-            throw new Error("Perfil no encontrado")
-        }
-    })
+    .custom(async (id) => {
+      const profile = await ProfileModel.findOne({ where: { profile } });
+      if (!profile) {
+        throw new Error("Perfil no encontrado");
+      }
+    }),
 ];

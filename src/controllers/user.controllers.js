@@ -4,7 +4,8 @@ import { TaskModel } from "../models/task.model.js";
 // Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await UserModel.findAll({where: {deleted: false},
+    const users = await UserModel.findAll({
+      where: { deleted: false },
       include: [
         {
           model: TaskModel,
@@ -25,7 +26,8 @@ export const getAllUsers = async (req, res) => {
 // Buscar un usuario por id
 export const getUserById = async (req, res) => {
   try {
-    const users = await UserModel.findOne({ where: {id: req.params.id, deleted: false},
+    const users = await UserModel.findOne({
+      where: { id: req.params.id, deleted: false },
       include: [
         {
           model: TaskModel,
@@ -71,7 +73,9 @@ export const createUser = async (req, res) => {
 // modificar usuario
 export const updateUser = async (req, res) => {
   try {
-    const users = await UserModel.findOne({ where: {id: req.params.id, deleted: false}});
+    const users = await UserModel.findOne({
+      where: { id: req.params.id, deleted: false },
+    });
     if (!users) {
       return res.status(404).json("No se encontró el usuario");
     }
@@ -98,11 +102,13 @@ export const updateUser = async (req, res) => {
 // eliminar usuario
 export const deleteUser = async (req, res) => {
   try {
-    const users = await UserModel.findOne({ where: {id: req.params.id, deleted: false}});
+    const users = await UserModel.findOne({
+      where: { id: req.params.id, deleted: false },
+    });
     if (!users) {
       return res.status(404).json("No se encontró el usuario");
     }
-    await users.update({deleted: true});
+    await users.update({ deleted: true });
     return res.status(200).json("Se eliminó el usuario correctamente");
   } catch (error) {
     res.status(500).json({

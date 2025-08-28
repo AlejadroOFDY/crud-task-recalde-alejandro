@@ -17,7 +17,7 @@ export const getAllUserProject = async (req, res) => {
           model: ProjectModel,
           as: "projects",
           attributes: ["name"],
-          where: { deleted: false }
+          where: { deleted: false },
         },
       ],
     });

@@ -9,9 +9,9 @@ export const ProjectModel = sequelize.define(
       allowNull: false,
     },
     deleted: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   },
-  },
-  { timestamps: false }
+  { paranoid: true, timestamps: false }
 );
