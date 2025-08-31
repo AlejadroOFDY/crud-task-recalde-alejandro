@@ -19,16 +19,16 @@ export const createUserValidation = [
   body("email")
     .notEmpty()
     .isEmail()
-    .withMessage("El email es un campo obligatorio"),
-  body("password")
-    .notEmpty()
-    .withMessage("La contraseña es un campo obligatorio")
-    .custom(async (email) => {
-      const users = await UserModel.findOne({ where: { email } });
+    .withMessage("El email es un campo obligatorio")
+    .custom(async (value) => {
+      const users = await UserModel.findOne({ where: { email: value } });
       if (users) {
         throw new Error("El email ya se encuentra registrado");
       }
     }),
+  body("password")
+    .notEmpty()
+    .withMessage("La contraseña es un campo obligatorio"),
 ];
 
 export const updateUserValidation = [
@@ -43,7 +43,7 @@ export const updateUserValidation = [
     }),
   body("name")
     .optional()
-    .isEmpty()
+    .notEmpty()
     .withMessage("El nombre no puede estar vacío"),
   body("email")
     .optional()
@@ -62,7 +62,7 @@ export const updateUserValidation = [
     }),
   body("password")
     .optional()
-    .isEmpty()
+    .notEmpty()
     .isAlphanumeric()
     .withMessage("La contraseña debe contener letras y al menos un número")
     .optional(),
