@@ -38,14 +38,6 @@ export const createUserProjectValidation = [
         throw new Error("No se encontró el proyecto");
       }
     }),
-  ,
-  custom(async (value) => {
-    const users = await UserModel.findByPk(value);
-    const project = await ProjectModel.findByPk(value);
-    if (users && project) {
-      throw new Error("Ya existe esta relación usuario-proyecto");
-    }
-  }),
 ];
 
 export const updateUserProjectValidation = [

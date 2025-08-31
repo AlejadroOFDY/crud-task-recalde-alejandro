@@ -8,7 +8,7 @@ export const getAllProfiles = async (req, res) => {
       include: [
         {
           model: UserModel,
-          as: "creado por",
+          as: "user",
           attributes: ["id", "name", "email"],
           where: { deleted: false },
         },

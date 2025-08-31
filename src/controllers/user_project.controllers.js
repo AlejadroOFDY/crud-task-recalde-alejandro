@@ -62,6 +62,12 @@ export const getUserProjectById = async (req, res) => {
 export const createUserProject = async (req, res) => {
   try {
     const { user_id, project_id } = req.body;
+    const existingRelation = await UserProjectModel.findOne({
+      where: { user_id, project_id },
+    });
+    if (existingRelation) {
+      return res.status(500).json("Ya existe la relación usuario-proyecto");
+    }
     const newUserProject = await UserProjectModel.create({
       user_id,
       project_id,
