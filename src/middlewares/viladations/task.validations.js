@@ -21,7 +21,9 @@ export const createTaskValidation = [
     .isLength({ max: 100 })
     .withMessage("El título debe tener menos de 100 caracteres")
     .custom(async (value) => {
-      const task = TaskModel.findOne({ where: { tittle: value } });
+      const task = await TaskModel.findOne({
+        where: { tittle: value },
+      });
       if (task) {
         throw new Error("El título ya está en uso");
       }
