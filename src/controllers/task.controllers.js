@@ -36,9 +36,6 @@ export const getTaskById = async (req, res) => {
         },
       ],
     });
-    if (!tasks) {
-      return res.status(404).json("No se encontró la tarea");
-    }
     return res.status(200).json(tasks);
   } catch (error) {
     return res
@@ -51,18 +48,6 @@ export const getTaskById = async (req, res) => {
 export const createTask = async (req, res) => {
   try {
     const { tittle, description, isComplete, user_id } = req.body;
-    console.log(req.body);
-    if (!tittle || !description || !user_id) {
-      return res.status(400).json("Faltan campos obligatorios");
-    }
-    const existingTittle = await TaskModel.findOne({ where: { tittle } });
-    if (existingTittle) {
-      return res.status(400).json("El título ya está en uso");
-    }
-    const user = await UserModel.findByPk(user_id);
-    if (!user) {
-      return res.status(404).json("Usuario no encontrado");
-    }
     const newTask = await TaskModel.create({
       tittle,
       description,
@@ -80,16 +65,7 @@ export const createTask = async (req, res) => {
 // modificar tarea
 export const updateTask = async (req, res) => {
   try {
-    const tasks = await TaskModel.findByPk(req.params.id);
-    if (!tasks) {
-      return res.status(404).json("No se encontró la tarea");
-    }
     const { tittle, description, isComplete } = req.body;
-
-    if (tittle && (await TaskModel.findOne({ where: { tittle } }))) {
-      return res.status(400).json("El título ya está en uso");
-    }
-
     await tasks.update({
       tittle: tittle || tasks.tittle,
       description: description || tasks.description,
@@ -97,7 +73,6 @@ export const updateTask = async (req, res) => {
     });
     return res.status(200).json(tasks);
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ error: error.message, message: "Error al actualizar la tarea" });
@@ -108,9 +83,6 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const tasks = await TaskModel.findByPk(req.params.id);
-    if (!tasks) {
-      return res.status(404).json("No se encontró la tarea");
-    }
     await tasks.destroy();
     return res
       .status(200)

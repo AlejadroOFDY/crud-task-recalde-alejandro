@@ -49,11 +49,6 @@ export const getUserProjectById = async (req, res) => {
         },
       ],
     });
-    if (!userProject) {
-      return res.status(404).json({
-        message: "No se encontró la relación usuario-proyecto",
-      });
-    }
     return res.status(200).json(userProject);
   } catch (error) {
     return res.status(500).json({
@@ -67,9 +62,6 @@ export const getUserProjectById = async (req, res) => {
 export const createUserProject = async (req, res) => {
   try {
     const { user_id, project_id } = req.body;
-    if (!user_id || !project_id) {
-      return res.status(400).json("Faltan campos obligatorios");
-    }
     const newUserProject = await UserProjectModel.create({
       user_id,
       project_id,
@@ -87,11 +79,6 @@ export const createUserProject = async (req, res) => {
 export const updateUserProject = async (req, res) => {
   try {
     const userProject = await UserProjectModel.findByPk(req.params.id);
-    if (!userProject) {
-      return res
-        .status(404)
-        .json({ message: "No se encontró la relacion usuario-proyecto" });
-    }
     const { user_id, project_id } = req.body;
     await userProject.update({
       user_id: user_id || userProject.user_id,
@@ -110,11 +97,6 @@ export const updateUserProject = async (req, res) => {
 export const deleteUserProject = async (req, res) => {
   try {
     const userProject = await UserProjectModel.findByPk(req.params.id);
-    if (!userProject) {
-      return res.status(404).json({
-        message: "No se encontró la relación usuario-proyecto",
-      });
-    }
     await userProject.destroy();
     return res
       .status(200)

@@ -36,11 +36,6 @@ export const getUserById = async (req, res) => {
         },
       ],
     });
-    if (!users) {
-      return res
-        .status(404)
-        .json({ error: error.message, message: "No se encontró el usuario" });
-    }
     return res.status(200).json(users);
   } catch (error) {
     return res
@@ -53,10 +48,6 @@ export const getUserById = async (req, res) => {
 export const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log(req.body);
-    if (!name || !email || !password) {
-      return res.status(400).json("Faltan campos obligatorios");
-    }
     const newUser = await UserModel.create({
       name,
       email,
@@ -76,15 +67,7 @@ export const updateUser = async (req, res) => {
     const users = await UserModel.findOne({
       where: { id: req.params.id, deleted: false },
     });
-    if (!users) {
-      return res.status(404).json("No se encontró el usuario");
-    }
     const { name, email, password } = req.body;
-
-    if (email && (await UserModel.findOne({ where: { email } }))) {
-      return res.status(400).json("El email ya está en uso");
-    }
-
     await users.update({
       name: name || users.name,
       email: email || users.email,
@@ -105,9 +88,6 @@ export const deleteUser = async (req, res) => {
     const users = await UserModel.findOne({
       where: { id: req.params.id, deleted: false },
     });
-    if (!users) {
-      return res.status(404).json("No se encontró el usuario");
-    }
     await users.update({ deleted: true });
     return res.status(200).json("Se eliminó el usuario correctamente");
   } catch (error) {

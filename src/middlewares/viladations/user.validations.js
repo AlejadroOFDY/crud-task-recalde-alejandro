@@ -1,5 +1,6 @@
-import { body, param, custom } from "express-validator";
+import { body, param } from "express-validator";
 import { UserModel } from "../../models/user.model.js";
+import { Op } from "sequelize";
 
 export const getUserByIdValidation = [
   param("id")
@@ -44,7 +45,21 @@ export const updateUserValidation = [
     .optional()
     .isEmpty()
     .withMessage("El nombre no puede estar vacío"),
-  body("email").optional().isEmail().withMessage("El email debe ser válido"),
+  body("email")
+    .optional()
+    .isEmail()
+    .withMessage("El email debe ser válido")
+    .custom(async (value, { req }) => {
+      const email = await UserModel.findOne({
+        where: {
+          email: value,
+          id: { [Op.ne]: req.params.id }, // Excluir el usuario actual
+        },
+      });
+      if (email) {
+        throw new Error("El email ingresado ya se encuentra registrado");
+      }
+    }),
   body("password")
     .optional()
     .isEmpty()

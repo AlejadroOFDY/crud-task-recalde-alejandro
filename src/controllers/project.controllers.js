@@ -41,9 +41,6 @@ export const getProjectById = async (req, res) => {
         },
       ],
     });
-    if (!project) {
-      return res.status(404).json({ message: "No se encontró el projecto" });
-    }
     return res.status(200).json(project);
   } catch (error) {
     return res
@@ -57,28 +54,12 @@ export const getProjectById = async (req, res) => {
 export const createProject = async (req, res) => {
   try {
     const { name, user_id } = req.body;
-    console.log(req.body);
-    if (!name || !user_id) {
-      return res
-        .status(400)
-        .json(
-          "El nombre del proyecto y el id del usuario son campos obligatorios"
-        );
-    }
-    if (name.length > 30) {
-      return res.status(400).json("El límite de caracteres es 30");
-    }
-    const user = await UserModel.findByPk(user_id);
-    if (!user) {
-      return res.status(404).json("Usuario no encontrado");
-    }
     const newProject = await ProjectModel.create({
       name,
       user_id,
     });
     return res.status(201).json(newProject);
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ error: error.message, message: "No se pudo crear el proyecto" });
@@ -92,15 +73,7 @@ export const updateProject = async (req, res) => {
     const project = await ProjectModel.findOne({
       where: { id: req.params.id, deleted: false },
     });
-    if (!project) {
-      return res.status(404).json({ message: "No se encontró el proyecto" });
-    }
     const { name } = req.body;
-    if (name && (await ProjectModel.findOne({ where: { name } }))) {
-      return res
-        .status(500)
-        .json({ message: "El nombre del proyecto ya se encuentra en uso" });
-    }
     await project.update({
       name: name || project.name,
     });
@@ -120,9 +93,6 @@ export const deleteProject = async (req, res) => {
     const project = await ProjectModel.findOne({
       where: { id: req.params.id, deleted: false },
     });
-    if (!project) {
-      return res.status(404).json({ message: "No se encontró el proyecto" });
-    }
     await project.update({ deleted: true });
     return res
       .status(200)
