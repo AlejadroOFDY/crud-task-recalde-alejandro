@@ -20,14 +20,14 @@ UserModel.belongsToMany(ProjectModel, {
   through: UserProjectModel,
   foreignKey: "user_id",
   as: "projects",
-  onDelete: "CASCADE",
+  onDelete: "CASCADE", //Esto no va a funcionar porque usuario tiene eliminación lógica no física
 });
 
 ProjectModel.belongsToMany(UserModel, {
   through: UserProjectModel,
   foreignKey: "project_id",
   as: "users",
-  onDelete: "CASCADE",
+  onDelete: "CASCADE", //Esto no va a funcionar porque usuario tiene eliminación lógica no física
 });
 
 UserProjectModel.belongsTo(UserModel, {

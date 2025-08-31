@@ -1,5 +1,6 @@
 import { UserModel } from "../models/user.model.js";
 import { TaskModel } from "../models/task.model.js";
+import { UserProjectModel } from "../models/user_project.model.js";
 
 // Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
@@ -87,6 +88,9 @@ export const deleteUser = async (req, res) => {
   try {
     const users = await UserModel.findOne({
       where: { id: req.params.id, deleted: false },
+    });
+    await UserProjectModel.destroy({
+      where: { user_id: users.id },
     });
     await users.update({ deleted: true });
     return res.status(200).json("Se eliminó el usuario correctamente");
